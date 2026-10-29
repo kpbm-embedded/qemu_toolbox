@@ -1,0 +1,10 @@
+# lldb batch session against QEMU's gdbstub (ELF symbols from the target create below)
+breakpoint set --name main
+continue
+frame variable --format d counter
+thread step-over
+frame variable --format d counter
+thread step-over
+frame variable --format d counter
+register read pc
+continue

@@ -1,0 +1,8 @@
+# lldb batch session (make debug): stop the third time enter_state() runs, show the state and the caller
+breakpoint set --name enter_state --condition 's == 3'
+continue
+frame variable --format d s
+thread backtrace
+expression --format d -- state + 1
+breakpoint delete
+continue

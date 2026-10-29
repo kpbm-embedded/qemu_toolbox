@@ -1,0 +1,27 @@
+# 32_10_qemu pixi env (managed by ./qemu-box, see README.md). conda-forge only, pinned by
+# pixi.lock; env in ./.pixi, package caches in ./cache. The bare-metal toolchain is LLVM:
+# one clang/lld (LLVM 22, same as lldb) targets both Arm (thumbv7m/v7em) and RISC-V (rv32/rv64), and the
+# freestanding examples need no libc (xPack Arm GCC 1.1 GB + RISC-V GCC 1.6 GB avoided).
+# QEMU itself comes from pinned xPack tarballs (config/pins.tsv).
+[workspace]
+name = "qemu_box"
+channels = ["conda-forge"]
+platforms = ["linux-64", "linux-aarch64", "osx-64", "osx-arm64", "win-64"]
+
+[dependencies]
+python = "3.12.*"
+clang = "22.*"
+lld = "22.*"
+llvm-tools = "22.*"
+# Debugger for the gdbstub examples: lldb (LLVM, all targets built in). conda-forge's gdb is
+# configured for the host only (no arm/riscv), so it is not used.
+lldb = "22.*"
+
+[target.unix.dependencies]
+make = "4.*"
+# dtc: decompile the device trees QEMU generates (-M <machine>,dumpdtb=x.dtb) for the fdt examples
+dtc = "1.7.*"
+
+[target.win-64.dependencies]
+m2-make = "*"
+

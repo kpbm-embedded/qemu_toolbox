@@ -1,0 +1,11 @@
+# lldb batch session against QEMU's gdbstub: a write watchpoint on g_mode stops in set_mode;
+# the backtrace shows who called it (handle_command with cmd = 3, from main).
+breakpoint set --name main
+continue
+watchpoint set variable --watch write g_mode
+continue
+thread backtrace
+frame select 1
+frame variable cmd
+watchpoint delete
+continue

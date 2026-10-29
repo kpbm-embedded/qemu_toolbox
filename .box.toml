@@ -1,0 +1,57 @@
+id = "32_10"
+name = "qemu"
+kind = "tool"
+status = "active"
+tags = ["embedded"]
+
+[backup]
+tier = "critical"
+
+[tool]
+name = "qemu"
+launcher = "qemu-box"
+aliases = ["qemu-box"]
+env_var = "BOX_QEMU_EMBEDDED"
+env_path = "."
+native = "native/native.zsh"
+native_provides = ["qemu-run-elf", "qemu-system-aarch64", "qemu-system-arm", "qemu-system-riscv32", "qemu-system-riscv64"]
+native_off_compat = ["QEMUBOX_NATIVE_OFF"]
+network = ["bootstrap", "install", "update"]
+
+[scripts.qemu-box]
+schema = 1
+kind = "launcher"
+path = "qemu-box"
+summary = "self-contained QEMU (xPack qemu-arm/qemu-riscv) for embedded targets + LLVM bare-metal toolchain."
+interpreter = "sh"
+commands = ["help", "where", "bootstrap", "install", "update", "clean", "status", "doctor", "shell", "run", "test", "new", "examples", "native", "relocate", "pack", "machines", "run-elf", "gdb", "qemu"]
+flags = ["--all", "--check", "--dir", "--dry-run", "--env", "--force", "--gdb", "--help", "--no-demos", "--no-semihosting", "--out", "--print", "--timeout", "--with-cache", "--yes"]
+reads = { global = ["BOXT_DRY_RUN"] }
+dry_run_flag = "--dry-run"
+apply_flag = { clean = "--yes" }
+scope = "global"
+
+[scripts."run-elf.sh"]
+schema = 1
+kind = "helper"
+path = "lib/run-elf.sh"
+summary = "headless QEMU run of a bare-metal ELF (semihosting, serial on stdio, optional --gdb)"
+interpreter = "bash"
+
+[scripts."test_dry_run.sh"]
+schema = 1
+kind = "test"
+path = "tests/test_dry_run.sh"
+summary = "Every qemu-box command in --dry-run mode (no downloads, builds, moves or launches)"
+interpreter = "bash"
+depends = { scripts = ["qemu-box"] }
+test = ["tests/test_dry_run.sh"]
+
+[scripts."test_smoke.sh"]
+schema = 1
+kind = "test"
+path = "tests/test_smoke.sh"
+summary = "Smoke test of the installed qemu-box: every QEMU binary starts"
+interpreter = "bash"
+depends = { scripts = ["qemu-box"] }
+test = ["tests/test_smoke.sh"]

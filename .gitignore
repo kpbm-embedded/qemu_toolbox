@@ -1,0 +1,23 @@
+# qemu-box: only sources go into git. Everything below is downloaded, solved or produced again by
+# ./qemu-box bootstrap | install | examples test (pins: pixi.toml + pixi.lock, config/pins.tsv, pixi sha256 in qemu-box).
+/.bin/
+/.pixi/
+/cache/
+/install/
+/native/
+/build/
+/log/
+/config/local.env
+/clone_check/
+# build output of templates/examples when made inside the folder (make OUT defaults to ./build)
+build/
+*.elf
+*.bin
+*.map
+*.o
+*.dtb
+*.log
+*.tar.zst
+*.tar.gz
+__pycache__/
+*.pyc
