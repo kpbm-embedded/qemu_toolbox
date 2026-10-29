@@ -2,7 +2,7 @@
 # ./qemu-box bootstrap | install | examples test (pins: pixi.toml + pixi.lock, config/pins.tsv, pixi sha256 in qemu-box).
 /.bin/
 /.pixi/
-/cache/
+/cache
 /install/
 /native/
 /build/
